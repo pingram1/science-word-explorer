@@ -1,26 +1,186 @@
+@import url("https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/open-dyslexic.min.css");
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Hydro Lab — Figma https://www.figma.com/design/SKSBgqe4LZlXKAI8qCy3g1
+     Water-cycle cyan/kelp for daytime classrooms. Button blues/teals are a
+     shade darker than the board swatches so white label text stays readable. */
+  --background: #e6f6fb;
+  --foreground: #0c2d3a;
+  --surface: #ffffff;
+  --surface-muted: #d4eef6;
+
+  --science-blue: #0a7390;
+  --science-blue-light: #1a93b3;
+  --science-teal: #0b7c74;
+  --science-teal-light: #14b8a6;
+  --science-green: #15803d;
+  --science-green-light: #4ade80;
+  --science-accent: #d97706;
+  --science-accent-light: #f59e0b;
+
+  --border: #9ad4e6;
+  --border-strong: #0c2d3a;
+  --muted: #3d6b7a;
+  --ring: #0a7390;
+
+  --success: #0b7c74;
+  --warning: #d97706;
+  --error: #dc4a3a;
+  --info: #0a7390;
+
+  --focus-ring-width: 3px;
+  --focus-ring-offset: 2px;
+
+  --font-size-base: 1rem;
+  --line-height-base: 1.6;
+  --spacing-scale: 1;
+  --motion-scale: 1;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-science-blue: var(--science-blue);
+  --color-science-blue-light: var(--science-blue-light);
+  --color-science-teal: var(--science-teal);
+  --color-science-teal-light: var(--science-teal-light);
+  --color-science-green: var(--science-green);
+  --color-science-green-light: var(--science-green-light);
+  --color-science-accent: var(--science-accent);
+  --color-science-accent-light: var(--science-accent-light);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-muted: var(--muted);
+  --color-ring: var(--ring);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+  --color-info: var(--info);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-dyslexic: "OpenDyslexic", var(--font-geist-sans), sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Night Observatory — indigo sky, aurora teal, instrument amber */
+    --background: #0b1220;
+    --foreground: #e8f0ff;
+    --surface: #152238;
+    --surface-muted: #1c2e4a;
+
+    --science-blue: #3b82f6;
+    --science-blue-light: #60a5fa;
+    --science-teal: #0f766e;
+    --science-teal-light: #2ee6c7;
+    --science-green: #22c55e;
+    --science-green-light: #4ade80;
+    --science-accent: #f59e0b;
+    --science-accent-light: #fbbf24;
+
+    --border: #2a3f63;
+    --border-strong: #c5d4f0;
+    --muted: #93a4c3;
+    --ring: #60a5fa;
+
+    --success: #14b8a6;
+    --warning: #f59e0b;
+    --error: #f07167;
+    --info: #3b82f6;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-scale: 0;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Accessibility profile overrides */
+[data-font-size="large"] {
+  --font-size-base: 1.125rem;
+}
+
+[data-font-size="xlarge"] {
+  --font-size-base: 1.25rem;
+}
+
+[data-spacing="relaxed"] {
+  --spacing-scale: 1.25;
+  --line-height-base: 1.75;
+}
+
+[data-reduced-motion="true"] {
+  --motion-scale: 0;
+}
+
+[data-dyslexic-font="true"] body {
+  font-family: var(--font-dyslexic);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+}
+
+/* High-contrast defaults */
+:where(a, button, [role="button"], input, select, textarea) {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:where(a:not([class])) {
+  color: var(--science-blue);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+:where(a:not([class]):hover) {
+  color: var(--science-teal);
+}
+
+/* Focus-visible styles */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: var(--focus-ring-width) solid var(--ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Skip link target offset */
+#main-content {
+  scroll-margin-top: 1rem;
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --border: var(--border-strong);
+    --foreground: #000000;
+    --background: #ffffff;
+  }
+
+  :focus-visible {
+    outline-width: 4px;
+    outline-color: #000000;
+  }
 }
